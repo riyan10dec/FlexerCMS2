@@ -7,6 +7,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
+  canActivate: [AuthGuard],
   children: [{
     path: 'dashboard',
     component: DashboardComponent,
@@ -32,6 +33,10 @@ const routes: Routes = [{
     path: 'tables',
     loadChildren: './tables/tables.module#TablesModule',
   }, {
+    path: 'fxdepartment',
+    loadChildren: './fxdepartment/fxdepartment.module#FXDepartmentModule',
+  },
+  {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',

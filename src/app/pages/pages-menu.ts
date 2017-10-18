@@ -124,6 +124,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
+    title: 'Department',
+    icon: 'nb-tables',
+    link: '/pages/fxdepartment',
+  },
+  {
     title: 'Tables',
     icon: 'nb-tables',
     children: [
