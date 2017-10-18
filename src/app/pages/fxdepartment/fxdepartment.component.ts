@@ -2,7 +2,7 @@ import { filter } from 'rxjs/operator/filter';
 import { withIdentifier } from 'codelyzer/util/astQuery';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
-//import { EmailValidator, EqualPasswordsValidator } from '../../theme/validators';
+// import { EmailValidator, EqualPasswordsValidator } from '../../theme/validators';
 import { FXDepartment } from './fxdepartment';
 import { FXDepartmentService } from './fxdepartment.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -22,9 +22,9 @@ export class FXDepartmentComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
   public input: string = '<input type="checkbox"></input>';
   settings = {
-    //editable: false,
+    // editable: false,
     selectMode: 'multi',
-    //mode: 'external',
+    // mode: 'external',
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -42,7 +42,7 @@ export class FXDepartmentComponent implements OnInit {
       confirmDelete: true,
     },
     actions : {
-      //delete: false,
+      // delete: false,
     },
     columns: {
       // checkbox: {
@@ -54,7 +54,8 @@ export class FXDepartmentComponent implements OnInit {
       //   //     alert(`${row.name} saved!`)
       //   //   });
       //   // },
-      //   //valuePrepareFunction: (value) => { return this.input/*this._sanitizer.bypassSecurityTrustHtml(this.input);*/ },
+      //   //valuePrepareFunction: (value) => { return this.input
+      // /*this._sanitizer.bypassSecurityTrustHtml(this.input);*/ },
       //   filter: false,
       // },
       departmentName: {
@@ -76,18 +77,19 @@ export class FXDepartmentComponent implements OnInit {
   selectedAction: string;
   selectedRows: any;
   private changedDepartment: any;
-  constructor( private fxDepartmentService: FXDepartmentService, private _sanitizer: DomSanitizer, private departmentService: FXDepartmentService) {
+  constructor( private fxDepartmentService: FXDepartmentService,
+  private _sanitizer: DomSanitizer, private departmentService: FXDepartmentService) {
     this.selectedAction = '';
     this.changedDepartment = [];
-    let payload = {
+    const payload = {
       clientID: 1,
       gmtDiff: new Date().getTimezoneOffset() / 60 * -1,
     };
     this.departmentService.getDepartmentData(payload).subscribe((data) => {
       this.initDepartment = data.departments;
-      let tempDepartment: any = [];
+      const tempDepartment: any = [];
       data.departments.forEach(d => {
-        let cb: CheckboxRenderComponent = new CheckboxRenderComponent();
+        const cb: CheckboxRenderComponent = new CheckboxRenderComponent();
         if (d.selected === 1) {
           cb.setMarked(true);
         } else {
@@ -106,11 +108,11 @@ export class FXDepartmentComponent implements OnInit {
   applyAction(action: string): void {
     if (action === 'bulkDelete') {
       this.source.getAll().then(d => {
-        let deletedElements = [];
+        const deletedElements = [];
         let successDelete = true;
         d.forEach((element, i, obj) => {
           this.selectedRows.forEach((element2, j, obj2) => {
-            if (element.departmentName == element2.departmentName) {
+            if (element.departmentName === element2.departmentName) {
               if (element.employeeCount > 0) {
                 successDelete = false;
               }
@@ -136,9 +138,9 @@ export class FXDepartmentComponent implements OnInit {
   }
   onSubmit(values: Object): void {
     this.source.getAll().then( d => {
-      let tempDept = [];
-      let oldDepartmentNames = [];
-      let newDepartmentNames = [];
+      const tempDept = [];
+      const oldDepartmentNames = [];
+      const newDepartmentNames = [];
       d.forEach(function(item) {
         tempDept.push(item.departmentName);
       });
@@ -146,7 +148,7 @@ export class FXDepartmentComponent implements OnInit {
         oldDepartmentNames.push(item.old);
         newDepartmentNames.push(item.new);
       });
-      let params = {
+      const params = {
         clientID : 1,
         departmentList : tempDept,
         oldDepartmentNames,
@@ -209,7 +211,7 @@ export class FXDepartmentComponent implements OnInit {
     if (departmentExist) {
       swal(
         'Oops...',
-        'Department '+ event.newData.departmentName+' already exist!',
+        'Department ' + event.newData.departmentName + ' already exist!',
         'error',
       );
       event.confirm.revert();
@@ -229,6 +231,6 @@ export class FXDepartmentComponent implements OnInit {
   ngAfterViewInit() {
     document.getElementsByClassName('employeeCount')['0'].style.width = '100px';
     document.getElementsByClassName('ng2-smart-actions')['0'].style.width = '50px';
-     //document.getElementsByClassName('ng2-smart-action-multiple-select')['2'].style.padding = '0.875rem 1.25rem;';
+     // document.getElementsByClassName('ng2-smart-action-multiple-select')['2'].style.padding = '0.875rem 1.25rem;';
   }
 }
