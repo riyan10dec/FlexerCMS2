@@ -113,7 +113,7 @@ export class FXDepartmentComponent implements OnInit {
             if (element.departmentName == element2.departmentName) {
               if (element.employeeCount > 0) {
                 successDelete = false;
-              } 
+              }
               deletedElements.push(element);
             }
           });
@@ -172,12 +172,12 @@ export class FXDepartmentComponent implements OnInit {
   onDeleteConfirm(event): void {
     swal({
       title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      text: 'You won\'t be able to revert this!',
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonText: 'Yes, delete it!',
     }).then(function() {
         if (event.data.employeeCount > 0) {
           swal(
