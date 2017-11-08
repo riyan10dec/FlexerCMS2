@@ -1,5 +1,6 @@
 export const connectionAPI = {
-    apiURL: 'http://flexerapi.southeastasia.cloudapp.azure.com:2345',
+    // apiURL: 'http://flexerapi.southeastasia.cloudapp.azure.com:2345',
+    apiURL: 'http://localhost:2345',
 };
 
 interface AuthConfig {

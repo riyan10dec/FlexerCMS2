@@ -1,3 +1,4 @@
+import { LoginModule } from './pages/login/login.module';
 /**
  * @license
  * Copyright Akveo. All Rights Reserved.
@@ -9,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { CoreModule } from './@core/core.module';
+import { NbLayoutModule, NbCardModule, NbCheckboxModule } from '@nebular/theme';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,12 +18,15 @@ import { ThemeModule } from './@theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,
+    ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
     AppRoutingModule,
+    LoginModule,
+    NbLayoutModule,
 
     NgbModule.forRoot(),
     ThemeModule.forRoot(),

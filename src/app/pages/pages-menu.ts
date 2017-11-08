@@ -128,6 +128,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-tables',
     link: '/pages/fxdepartment',
   },
+
+  {
+    title: 'Employee',
+    icon: 'nb-tables',
+    link: '/pages/fxemployee',
+  },
   {
     title: 'Tables',
     icon: 'nb-tables',
@@ -144,7 +150,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Login',
-        link: '/auth/login',
+        link: '/pages/login',
       },
       {
         title: 'Register',

@@ -7,7 +7,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
-  canActivate: [AuthGuard],
+  //canActivate: [AuthGuard],
   children: [{
     path: 'dashboard',
     component: DashboardComponent,
@@ -35,6 +35,10 @@ const routes: Routes = [{
   }, {
     path: 'fxdepartment',
     loadChildren: './fxdepartment/fxdepartment.module#FXDepartmentModule',
+  },
+  {
+    path: 'fxemployee',
+    loadChildren: './fxemployee/fxemployee.module#FXEmployeeModule',
   },
   {
     path: '',

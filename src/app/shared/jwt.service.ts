@@ -5,23 +5,23 @@ import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
 @Injectable()
 export class JwtService {
   isTokenValid(token: string): Boolean {
-    auth0 = new auth0.WebAuth({
-    clientID: AUTH_CONFIG.CLIENT_ID,
-    domain: AUTH_CONFIG.CLIENT_DOMAIN
-  });
+  //   auth0 = new auth0.WebAuth({
+  //   clientID: AUTH_CONFIG.CLIENT_ID,
+  //   domain: AUTH_CONFIG.CLIENT_DOMAIN
+  // });
     const jwtHelper: JwtHelper = new JwtHelper();
     return jwtHelper.isTokenExpired(token);
   }
   getToken(): string {
-    return window.localStorage['jwtToken'];
+    return localStorage.getItem('token');
   }
 
   saveToken(token: string) {
-    window.localStorage['jwtToken'] = token;
+    window.localStorage['token'] = token;
   }
 
   destroyToken() {
-    window.localStorage.removeItem('jwtToken');
+    localStorage.removeItem('token');
   }
 
 }
