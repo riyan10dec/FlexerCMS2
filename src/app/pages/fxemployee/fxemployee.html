@@ -1,5 +1,16 @@
+<style>
 
-<div class="widgets" style="text-align:center;">
+ngui-auto-complete {
+        width: 500px !important;
+        position: absolute;
+        left: 10px !important;
+        top: 10px !important;
+}
+ngui-auto-complete ul {
+background-color: black;
+}
+</style>
+<div class="widgets" style="text-align:center;" *ngIf="!edit">
   <div style="text-align: left;display: inline-block; width: 80%;" class="row">
     <div class="col-xs-2">
       <select class="form-control" style="width: 200px; float:left; margin-right: 10px;" [(ngModel)]="selectedAction">
@@ -9,19 +20,141 @@
       </select>
     </div>
     <div class="col-xs-2">
-      <button class="btn btn-hero-primary" type="button" (click)="applyAction(selectedAction)">Go</button>
+      <!--<button class="btn btn-hero-primary" type="button" (click)="applyAction(selectedAction)">Go</button>-->
     </div>
   </div>
   <div class="row" style="display: inline-block; width: 80%;margin-top: 40px;">
     <nb-card title="Manage Department" baCardClass="with-scroll" class="smart-table-container">
       <ng2-smart-table [settings]="settings" 
           [source]="source" 
-          (deleteConfirm)="onDeleteConfirm($event)" 
-          (editConfirm)="onEditConfirm($event)" 
-          (createConfirm)="onCreateConfirm($event)"
-          (userRowSelect)="onChecked($event)"></ng2-smart-table>
-      <button class="btn btn-hero-primary" type="button" (click)="onSubmit()" style="margin-top:20px;float:right">Save</button>
+          (edit) = "onEdit($event)"></ng2-smart-table>
     </nb-card>
   </div>
+</div>
 
+<div class="widget" style="text-align: center" *ngIf="edit">
+  
+  <div class="row" style="display: inline-block; width: 85%;margin-top: 40px;">
+    <nb-card>
+      <nb-card-header>
+        Add/Edit Employee
+      </nb-card-header>
+      <nb-card-body>
+        <nb-tabset>
+          <nb-tab tabTitle="Profile">
+          <form style="padding-top: 20px; width: 95%;">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group" style="text-align: left;">
+                  <label for="EmpID">Employee ID</label>
+                  <input type="text" class="form-control" name="EmpID" id="EmpID" placeholder="Employee ID" [(ngModel)] = "changedEmployee.EmployeeID">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group" style="text-align: left;">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Name" [(ngModel)] = "changedEmployee.EmployeeName">
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" style="text-align: left;">
+                  <label for="email">Email</label>
+                  <input type="text" class="form-control" id="email" name="email" placeholder="Email" [(ngModel)] = "changedEmployee.Email">
+                </div>
+              </div>
+              
+              <div class="col-sm-6">
+                <div class="form-group" style="text-align: left;">
+                  <label for="Position">Position</label>
+
+                  <div ngui-auto-complete
+                    [source]="positions"
+                    [max-num-list]="3"
+                    [min-chars]="1"
+                    class="nb-theme-cosmic">
+                    <input type="text" class="form-control" name="Position" id="Position" autocomplete="off" placeholder="Position" [(ngModel)] = "changedEmployee.Position">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" style="text-align: left;">
+                  <label for="Department">Department</label>
+                  <div ngui-auto-complete
+                    [source]="departments"
+                    [max-num-list]="3"
+                    [min-chars]="1"
+                    class="nb-theme-cosmic">
+                    <input type="text" class="form-control" id="Department" name="Department" autocomplete="off" placeholder="Department" [(ngModel)] = "changedEmployee.Department">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" style="text-align: left;">
+                  <label for="Superior">Superior</label>
+                    <input type="text" 
+                      ngui-auto-complete 
+                      [source]="superiors" 
+                      value-property-name="id"
+                      display-property-name="name"
+                      type="text" 
+                      class="form-control" 
+                      id="Superior" 
+                      name="Superior" 
+                      autocomplete="off" 
+                      placeholder="Superior" 
+                      [list-formatter]="autocompleListFormatterSuperior"
+                      [max-num-list]="3"
+                      [(ngModel)] = "changedEmployee.Superior">
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" style="text-align: left;">
+                  <label for="status">Status</label>
+                  <input type="text" class="form-control" name="status"  id="status" [disabled]="true" placeholder="Status" [(ngModel)] = "changedEmployee.Status">
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" style="text-align: left;">
+                  <label for="lastActivity">Last Activity</label>
+                  <input type="text" class="form-control" name="lastActivity" [disabled]="true" id="lastActivity" placeholder="Last Activity" [(ngModel)] = "changedEmployee.LastActivity">
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" style="text-align: left;">
+                  <label for="ResetPassword"><a (click)="enableReset = true">Reset Password</a></label>
+                  <input type="password" class="form-control" *ngIf="enableReset" id="ResetPassword" placeholder="New Password" >
+                </div>
+              </div>
+
+              <div class="col-sm-12">
+                <!--<nb-checkbox status="success" class="col-sm-12">Send Email Notification</nb-checkbox>-->
+              </div>
+            </div>
+          </form>
+            <div class="text-right">
+              <button class="btn btn-hero-primary text-right" *ngIf="changedEmployee.Status == 'Inactive'" type="button" (click)="activate(true)">Activate</button>
+              <button class="btn btn-hero-primary text-right" *ngIf="changedEmployee.Status == 'Active'" type="button" (click)="activate(false)">Deactivate</button>
+              <button class="btn btn-hero-primary text-right" type="button" (click)="saveProfile()">Save</button>
+            </div>
+          </nb-tab>
+
+          <nb-tab tabTitle="Performance">
+          </nb-tab>
+
+          <nb-tab tabTitle="Settings">
+          </nb-tab>
+
+        </nb-tabset>
+      </nb-card-body>
+    </nb-card>
+    <nb-card>
+      <button class="btn btn-hero-primary" type="button" (click)="edit = false;">Back</button>
+    </nb-card>
+  </div>
 </div>

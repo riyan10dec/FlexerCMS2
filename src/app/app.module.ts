@@ -16,12 +16,14 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 
 @NgModule({
   declarations: [AppComponent,
     ],
   imports: [
     BrowserModule,
+    NguiAutoCompleteModule,
     BrowserAnimationsModule,
     HttpModule,
     AppRoutingModule,

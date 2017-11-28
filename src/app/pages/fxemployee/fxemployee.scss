@@ -1,5 +1,10 @@
-//@import '../../theme/sass/auth';
-table>tfoot>tr>td{border: 1px solid #e9ebec;}
-.ng2-smart-action-multiple-select {
-    padding-left: 20px;
+
+ngui-auto-complete {
+        width: 500px !important;
+        position: absolute;
+        left: 10px !important;
+        top: 10px !important;
+}
+ngui-auto-complete > ul {
+background-color: black;
 }

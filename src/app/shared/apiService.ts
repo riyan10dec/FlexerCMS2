@@ -18,20 +18,21 @@ export class ApiService {
     this.connection = connectionAPI.apiURL;
   }
   private token: string;
-  // private hostname: string= connectionAPI.getHost();
-  private headers: Headers = new Headers();
   private connection: string;
 
   private setHeaders(): Headers {
-    this.headers.append('Content-Type', 'application/json');
-    this.headers.append('Accept', 'application/json');
-    this.headers.append('Authorization', 'Bearer ' + this.jwtService.getToken());
-    return this.headers;
+    const headers: Headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+    headers.append('Authorization', 'Bearer ' + this.jwtService.getToken());
+    return headers;
   }
 
   private formatErrors(error: any) {
-    if (error.status === -3) {
+    if (error.status === 401) {
       this.router.navigateByUrl('/pages/login');
+      localStorage.removeItem('token');
+      return;
     }
     return Observable.throw(error);
   }
@@ -41,7 +42,7 @@ export class ApiService {
       `${this.connection}${path}`,
       { headers: this.setHeaders() })
       .map((res: Response) => res.json())
-      .catch(this.formatErrors);
+      .catch(this.formatErrors.bind(this));
   }
 
   put(path: string, body: Object = {}): Observable<any> {
@@ -50,11 +51,12 @@ export class ApiService {
       JSON.stringify(body),
       { headers: this.setHeaders() },
     )
-      .map((res: Response) => res.json())
-      .catch(this.formatErrors);
+      .map((res: Response) => res.json(), this)
+      .catch(this.formatErrors.bind(this));
   }
 
   post(path: string, body: Object = {}): Observable<any> {
+    const thatRouter = this.router;
     return this.http.post(
       `${this.connection}${path}`,
       JSON.stringify(body),

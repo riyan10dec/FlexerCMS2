@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-//import { NgaModule } from '../../theme/nga.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 import { ThemeModule } from '../../@theme/theme.module';
@@ -11,17 +10,19 @@ import { SmartTableService } from '../../@core/data/smart-table.service';
  import { FXEmployeeService } from './fxemployee.service';
  import { ApiService } from '../../shared/apiService';
  import { JwtService } from '../../shared/jwt.service';
-// import { CheckboxRenderComponent } from '../../shared/checkbox-render.component';
-// import { connectionAPI } from '../../../environments/connectionAPI';
+import {MomentModule} from 'angular2-moment';
+ import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 
 @NgModule({
   imports: [
+    NguiAutoCompleteModule,
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
     ThemeModule,
     routing,
     Ng2SmartTableModule,
+    MomentModule,
   ],
   declarations: [
     FXEmployeeComponent,
@@ -32,12 +33,8 @@ import { SmartTableService } from '../../@core/data/smart-table.service';
     ApiService,
     JwtService,
   ],
-  // entryComponents: [
-  //   CheckboxRenderComponent,
-  // ],
 })
-export class FXEmployeeModule { 
+export class FXEmployeeModule {
   constructor() {
-  console.log('a');
   }
 }

@@ -1,7 +1,13 @@
 import { FormGroup } from '@angular/forms';
 
 export class FXEmployee {
-    selected: number;
-    departmentName: string;
-    employeeCount: number;
+    UserID: number;
+    EmployeeID: string;
+    EmployeeName: string;
+    Email: string;
+    Position: string;
+    Department: string;
+    Status: string;
+    LastActivity: Date;
+    Superior: any;
 }

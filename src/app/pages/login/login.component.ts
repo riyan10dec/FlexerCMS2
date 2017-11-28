@@ -26,15 +26,19 @@ export class LoginComponent implements OnInit {
   }
   ngOnInit() {}
   signIn() {
+    localStorage.setItem('gmtDiff', this.getTimezoneOffset().toFixed(2));
     let param = {
       email: this.email,
       password: this.password,
-      gmtDiff: parseFloat(this.getTimezoneOffset().toFixed(2)),
+      gmtDiff: parseFloat(localStorage.getItem('gmtDiff')),
     };
     this.loginService.signIn(param).subscribe((data) => {
       if (data.status === 1) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('serverTime', data.serverTime);
+        localStorage.setItem('clientID', data.clientID);
+        localStorage.setItem('userID', data.userID);
+        localStorage.setItem('userName', data.userName);
         this.router.navigateByUrl('/pages/dashboard');
       } else {
         swal(
