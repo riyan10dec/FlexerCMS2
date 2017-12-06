@@ -7,7 +7,8 @@ export class FXEmployeeService {
     constructor(private apiService: ApiService) { }
 
     private getEmployeeDataQuery: string = '/cms/GetSubs/@0/@1/@2';
-    private saveEmployeeQuery: string = '/cms/SaveEmployee';
+    private editEmployeeQuery: string = '/cms/editEmployee';
+    private addEmployeeQuery: string = '/cms/addEmployee';
     private getActiveDepartment: string = '/cms/GetActiveDepartments/@0';
     private getPositionsQuery: string = '/cms/GetAllPositions/@0';
     private getSuperiorsQuery: string = '/cms/GetSubs/@0/@1/@2';
@@ -19,8 +20,11 @@ export class FXEmployeeService {
         .replace('@2', payload.activeOnly)).map(data =>
             data);
     }
-    saveEmployee(payload): Observable<any> {
-        return this.apiService.post(this.saveEmployeeQuery, payload).map(data => data);
+    editEmployee(payload): Observable<any> {
+        return this.apiService.post(this.editEmployeeQuery, payload).map(data => data);
+    }
+    addEmployee(payload): Observable<any> {
+        return this.apiService.post(this.addEmployeeQuery, payload).map(data => data);
     }
     getActiveDepartments(payload): Observable<any> {
         return this.apiService.get(this.getActiveDepartment

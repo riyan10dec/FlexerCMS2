@@ -17,6 +17,9 @@
     })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
     ga('create', 'UA-102084081-3', 'auto');
   </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 </head>
 <body>
   <ngx-app>Loading...</ngx-app>
@@ -44,7 +47,73 @@
       border-radius: 0.5rem;
       border: 2px solid #ffffff; 
     } 
+    #datepicker {
+      display: inline-block;
+    }
+    .datepicker {
+      background: #2f296b !important;
+    }
+    .ui-datepicker table {
+      width: 100%;
+      font-size: .9em;
+      border-collapse: collapse;
+      margin: 0 0 .4em;
+      background: #3d3780;
+      color: #eee;
+    }
+    .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
+        border: 1px solid #eee !important;
+        background: #3d3780 !important;
+        font-weight: normal;
+        color: #eee !important;
+    }
+    .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
+        border: 1px solid #003eff;
+        background: #007fff;
+        font-weight: normal;
+        color: #ffffff;
+    }
+    .ui-widget.ui-widget-content {
+        border: 1px solid #eee !important;
+        font-family: Exo;
+    }
+    .ui-widget-content {
+        background: #3d3780 !important;
+        color: #333333;
+    }
+    .ui-widget-header {
+        border-top: 0px !important;
+        border-left: 0px !important;
+        border-right: 0px !important;
+        border-bottom: 1px solid #eee !important;
+        background: #3d3780 !important;
+        color: #eee !important;
+        font-weight: bold;
+    }
+    button.swal2-confirm.styled {
+          background-image: linear-gradient(to right, #ad59ff, #7659ff);
+          box-shadow: 0 3px 0 0 #7e4ddb, 0 2px 8px 0 #9259ff, 0 4px 10px 0 rgba(33, 7, 77, 0.5);
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+          border: none;
+          line-height: calc((1rem * 1.25) + 4px);
+    }
+    .ui-widget-header .ui-icon {
+        background-image: url('assets/images/white.png') !important;
+    }
+    .ui-widget-header .ui-icon {
+     background-image: url('assets/images/white.png') !important; 
+    }
+    .ui-icon, .ui-widget-content .ui-icon {
+        background-image: url('assets/images/white.png') !important;
+    }
+    .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus, .ui-button:hover, .ui-button:focus {
+    border: 1px solid #eee !important;
+    background: #3d3780 !important;
+    font-weight: normal;
+    color: #eee !important;
+}
   </style>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <div id="nb-global-spinner" class="spinner">
     <div class="blob blob-0"></div>
     <div class="blob blob-1"></div>

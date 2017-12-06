@@ -10,4 +10,7 @@ export class FXEmployee {
     Status: string;
     LastActivity: Date;
     Superior: any;
+    NewPassword: string;
+    ActiveStart: Date;
+    ActiveEnd: Date;
 }

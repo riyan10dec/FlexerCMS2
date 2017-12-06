@@ -56,7 +56,6 @@ export class ApiService {
   }
 
   post(path: string, body: Object = {}): Observable<any> {
-    const thatRouter = this.router;
     return this.http.post(
       `${this.connection}${path}`,
       JSON.stringify(body),
