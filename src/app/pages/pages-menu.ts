@@ -128,7 +128,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-tables',
     link: '/pages/fxdepartment',
   },
-
   {
     title: 'Employee',
     icon: 'nb-tables',

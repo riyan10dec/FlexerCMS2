@@ -1,4 +1,5 @@
 import { LoginModule } from './pages/login/login.module';
+import { PerformanceModule } from './pages/performance/performance.module';
 /**
  * @license
  * Copyright Akveo. All Rights Reserved.

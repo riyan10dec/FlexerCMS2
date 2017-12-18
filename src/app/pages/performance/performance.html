@@ -1,0 +1,48 @@
+ 
+        <div class="row">
+            <div class="col-12">
+                <select class="form-control" style="width: 200px; float:left; margin-right: 10px;" 
+                    [(ngModel)]="selectedPiePeriod" >
+                        <option value="today" selected>Today</option>
+                        <option value="thisWeek">This Week</option>
+                        <option value="thisMonth">This Month</option>
+                </select>
+            </div>
+            <div class="col-3">
+                <ngx-charts-pie-chart
+                    [scheme]="activitySummaryOption"
+                    [results]="activitySummaryData"
+                    [view]="[200, 200]"
+                    [labelFormatting] = "formatPieLabel"
+                    [doughnut]="true"
+                    >
+                </ngx-charts-pie-chart>
+            </div>
+            <div class="col-3 text-left" style="margin-top: 30px;">
+                Total: {{totalString}} <br/>
+                Productive: {{productiveString}}<br/>
+                Unproductive: {{unproductiveString}}<br/>
+                Unclassified: {{unclassifiedString}}<br/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <nb-card-body>
+                <ngx-charts-bar-horizontal-stacked
+                [view]="dailyView"
+                [scheme]="activitySummaryOption"
+                [results]="userDailies"
+                [gradient]="true"
+                [xAxis]="true"
+                [yAxis]="true"
+                [legend]="true"
+                [showXAxisLabel]="true"
+                [showYAxisLabel]="true"
+                [xAxisLabel]="'Duration'"
+                [yAxisLabel]="'Session'"
+                (select)="onBarSelect($event)">
+                </ngx-charts-bar-horizontal-stacked>
+                </nb-card-body>
+            </div>
+        </div>
+<!--(change)="onPiePeriodChange($event.target.value)"-->

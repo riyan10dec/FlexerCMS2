@@ -1,3 +1,4 @@
+import { PerformanceComponent } from './pages/performance/performance.component';
 import { LoginModule } from './pages/login/login.module';
 import { LoginComponent } from './pages/login/login.component';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';

@@ -1,8 +1,10 @@
+import { Router } from '@angular/router';
+import { ButtonViewComponent } from '../../shared/button-render.component';
 import { NbThemeService } from '@nebular/theme';
 import { ProtractorExpectedConditions } from 'protractor/built/expectedConditions';
 import { filter } from 'rxjs/operator/filter';
 import { withIdentifier } from 'codelyzer/util/astQuery';
-import { Component, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 // import { EmailValidator, EqualPasswordsValidator } from '../../theme/validators';
 import { FXEmployee } from './fxemployee';
@@ -29,8 +31,9 @@ declare var swal: any;
   providers: [FXEmployeeService],
 })
 
-export class FXEmployeeComponent implements OnDestroy {
+export class FXEmployeeComponent implements OnInit {
 
+  protected viewPerformance: boolean;
   source: LocalDataSource = new LocalDataSource();
   public input: string = '<input type="checkbox"></input>';
   settings = {
@@ -48,20 +51,8 @@ export class FXEmployeeComponent implements OnDestroy {
       confirmSave: true,
     },
     delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
+      deleteButtonContent: '<i class="fa fa-line-chart" aria-hidden="true" style="font-size: 18px;"></i>',
       confirmDelete: true,
-    },
-
-    actions: {
-      title: 'Performance',
-      name: 'Performance',
-      type: 'html',
-      valuePrepareFunction: (cell, row) => {
-        return `<a [routerLink]=" ['./'] " (click) = "GetPerformance(${row})">
-          <i class="fa fa-bar-chart" aria-hidden="true"></i>
-          </a>`;
-      },
-      filter: false,
     },
     columns: {
       userName: {
@@ -105,21 +96,12 @@ export class FXEmployeeComponent implements OnDestroy {
   protected activeOnly: boolean;
   protected oldEmployee: FXEmployee;
   protected isNew: boolean;
-  protected activitySummaryData: any;
-  protected performance: boolean
-  protected activitySummaryOption: any;
-  protected themeSubscription: any;
-  constructor(private fxEmployeeService: FXEmployeeService,
+  ngOnInit() {
+  }
+  constructor(private fxEmployeeService: FXEmployeeService, 
     private _sanitizer: DomSanitizer, private employeeService: FXEmployeeService,
-    private theme: NbThemeService) {
-    this.activitySummaryData = [];
-    this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
-      const colors: any = config.variables;
-      this.activitySummaryOption = {
-        domain: [colors.primaryLight, colors.infoLight, colors.successLight, colors.warningLight, colors.dangerLight],
-      };
-    });
-    $('.advanced-pie').css('width: 200px; height: 200px;');
+    private router: Router) {
+    this.viewPerformance = false;
     this.inActiveDate = new Date();
     this.enableReset = false;
     this.superiors = [];
@@ -154,7 +136,6 @@ export class FXEmployeeComponent implements OnDestroy {
           id: parseInt(localStorage.getItem('userID'), 10),
           name: localStorage.getItem('userName'),
         });
-        console.log(this.superiors);
       });
 
     // this.employeeService.getPositions(localStorage.getItem('clientID')).subscribe(
@@ -170,21 +151,22 @@ export class FXEmployeeComponent implements OnDestroy {
     if (this.enableReset === true) {
       this.enableReset = false;
       this.changedEmployee.NewPassword = 'Password';
-    }
-    else {
+    } else {
       this.enableReset = true;
       this.changedEmployee.NewPassword = '';
     }
   }
-  loadEmployeeGrid(){
-    let payload = {
+  loadEmployeeGrid() {
+    const payload = {
       userID: localStorage.getItem('userID'),
       gmtDiff: parseFloat(localStorage.getItem('gmtDiff')),
       activeOnly: this.activeOnly,
     }
     this.employeeService.getEmployeeData(payload).subscribe((data) => {
       data.employees.forEach( d => {
-        if (d.lastActivity.length == 0) return;
+        if (d.lastActivity.length === 0) {
+          return;
+        }
         d.lastActivity = moment(d.lastActivity, 'YYYY-MM-DD HH:mm:ss').format('DD MMM YYYY HH:mm:ss');
       });
       this.source.load(data.employees);
@@ -225,22 +207,21 @@ export class FXEmployeeComponent implements OnDestroy {
     this.oldEmployee = this.changedEmployee;
   }
   autocompleListFormatterSuperior = (data: any) => {
-    let html = `<span class="nb-theme-cosmic">${data.name}</span>`;
+    const html = `<span class="nb-theme-cosmic">${data.name}</span>`;
     return this._sanitizer.bypassSecurityTrustHtml(html);
   }
   saveProfile() {
-    let payload = this.generatePayloadEmployee(this.changedEmployee);
+    const payload = this.generatePayloadEmployee(this.changedEmployee);
     if (this.isNew) {
       this.employeeService.addEmployee(payload).subscribe(
         (data) => {
-          swal("success", "Success add employee");
+          swal('success', 'Success add employee');
           this.edit = false;
         });
-    }
-    else {
+    } else {
       this.employeeService.editEmployee(payload).subscribe(
         (data) => {
-          swal("success", "Success update employee");
+          swal('success', 'Success update employee');
         });
     }
   }
@@ -248,20 +229,20 @@ export class FXEmployeeComponent implements OnDestroy {
     if (active === true) {
       this.oldEmployee.ActiveStart = new Date();
       this.oldEmployee.Status = 'Active';
-      let payload = this.generatePayloadEmployee(this.oldEmployee);
+      const payload = this.generatePayloadEmployee(this.oldEmployee);
       this.employeeService.editEmployee(payload).subscribe(
         (data) => {
-          swal("success", "Success activate employee");
+          swal('success', 'Success activate employee');
           this.changedEmployee.ActiveStart = this.changedEmployee.ActiveStart;
           this.changedEmployee.Status = 'Active';
         });
     } else {
       this.oldEmployee.ActiveEnd = this.inActiveDate;
       this.oldEmployee.Status = 'Inactive';
-      let payload = this.generatePayloadEmployee(this.oldEmployee);
+      const payload = this.generatePayloadEmployee(this.oldEmployee);
       this.employeeService.editEmployee(payload).subscribe(
         (data) => {
-          swal("success", "Success deactivate employee");
+          swal('success', 'Success deactivate employee');
           this.changedEmployee.ActiveEnd = this.changedEmployee.ActiveEnd;
           if (this.changedEmployee.ActiveEnd < new Date()) {
             this.changedEmployee.Status = 'Inactive';
@@ -297,7 +278,7 @@ export class FXEmployeeComponent implements OnDestroy {
       clientID: parseInt(localStorage.getItem('clientID'), 10),
       userPassword: this.enableReset === true ? emp.NewPassword : '',
       activeStatus: emp.Status,
-      activeStart: moment(emp.ActiveStart).format("YYYY-MM-DD"),
+      activeStart: moment(emp.ActiveStart).format('YYYY-MM-DD'),
       activeEnd: moment(emp.ActiveEnd).format('YYYY-MM-DD'),
       modifiedBy: parseInt(localStorage.getItem('userID'), 10),
       gmtDiff: parseFloat(localStorage.getItem('gmtDiff')),
@@ -313,31 +294,13 @@ export class FXEmployeeComponent implements OnDestroy {
     this.changedEmployee.Department = event;
   }
 
-  GetPerformance(row){
-    console.log("a");
-    this.performance = true;
-  }
   departmentFormatter = (data: any) => {
-    let html = `<span style='color:red'>${data} </span>`;
+    const html = `<span style='color:red'>${data} </span>`;
     return this._sanitizer.bypassSecurityTrustHtml(html);
   }
-  changeTab(event) {
-    if(event.tabTitle === "Performance"){
-      this.activitySummaryData = [
-        { name: 'Germany', value: 8940 },
-        { name: 'USA', value: 5000 },
-        { name: 'France', value: 7200 },
-      ];
-
-      this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
-      const colors: any = config.variables;
-      this.activitySummaryOption = {
-        domain: [colors.primaryLight, colors.infoLight, colors.successLight, colors.warningLight, colors.dangerLight],
-      };
-    });
-    }
-  };
-  ngOnDestroy(): void {
-    this.themeSubscription.unsubscribe();
+  protected performanceUserID: number;
+  onPerformance(event) {
+    this.performanceUserID = event.data.userID;
+    this.viewPerformance = true;
   }
 }

@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ThemeModule } from '../../@theme/theme.module';
- import { FXEmployeeComponent } from './fxemployee.component';
- import { routing } from './fxemployee.routing';
+ import { PerformanceComponent } from './Performance.component';
 import { SmartTableService } from '../../@core/data/smart-table.service';
- import { FXEmployeeService } from './fxemployee.service';
+ import { PerformanceService } from './Performance.service';
  import { ApiService } from '../../shared/apiService';
  import { JwtService } from '../../shared/jwt.service';
 import {MomentModule} from 'angular2-moment';
@@ -15,7 +14,6 @@ import {MomentModule} from 'angular2-moment';
 import { ChartModule } from 'angular2-chartjs';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AngularEchartsModule } from 'ngx-echarts';
-import { PerformanceComponent } from '../performance/performance.component'
 
 @NgModule({
   imports: [
@@ -24,7 +22,6 @@ import { PerformanceComponent } from '../performance/performance.component'
     ReactiveFormsModule,
     FormsModule,
     ThemeModule,
-    routing,
     Ng2SmartTableModule,
     MomentModule,
     DpDatePickerModule,
@@ -33,17 +30,16 @@ import { PerformanceComponent } from '../performance/performance.component'
     AngularEchartsModule,
   ],
   declarations: [
-    FXEmployeeComponent,
     PerformanceComponent,
   ],
   providers: [
     SmartTableService,
-    FXEmployeeService,
+    PerformanceService,
     ApiService,
     JwtService,
   ],
 })
-export class FXEmployeeModule {
+export class PerformanceModule {
   constructor() {
   }
 }

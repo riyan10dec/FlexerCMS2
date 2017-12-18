@@ -12,6 +12,7 @@ export class FXEmployeeService {
     private getActiveDepartment: string = '/cms/GetActiveDepartments/@0';
     private getPositionsQuery: string = '/cms/GetAllPositions/@0';
     private getSuperiorsQuery: string = '/cms/GetSubs/@0/@1/@2';
+    private getUserPerformanceQuery: string = '/cms/GetUserPerformance/@0/@1/@2';
 
     getEmployeeData(payload): Observable<any> {
         return this.apiService.get(this.getEmployeeDataQuery
@@ -42,6 +43,14 @@ export class FXEmployeeService {
         .replace('@0', payload.userID)
         .replace('@1', payload.gmtDiff)
         .replace('@2', payload.activeOnly)).map(data =>
+            data);
+    }
+
+    getUserPerformance(payload): Observable<any> {
+        return this.apiService.get(this.getUserPerformanceQuery
+        .replace('@0', payload.userID)
+        .replace('@1', payload.periodStart)
+        .replace('@2', payload.periodEnd)).map(data =>
             data);
     }
 }
