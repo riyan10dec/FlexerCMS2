@@ -19,7 +19,7 @@
     "lint:ci": "npm run lint && npm run lint:styles",
     "pree2e": "webdriver-manager update --standalone false --gecko false",
     "e2e": "ng e2e",
-    "prepush": "",
+    "prepush": "npm test",
     "build:sass": "node-sass sass_folder/ -o css_folder",
     "watch:sass": "npm run build:sass && node-sass sass_folder/ -wo css_folder/"
   },
