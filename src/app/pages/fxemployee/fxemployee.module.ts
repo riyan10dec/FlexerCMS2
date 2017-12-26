@@ -16,6 +16,7 @@ import { ChartModule } from 'angular2-chartjs';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AngularEchartsModule } from 'ngx-echarts';
 import { PerformanceComponent } from '../performance/performance.component'
+import { ToasterModule } from 'angular2-toaster';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { PerformanceComponent } from '../performance/performance.component'
     ChartModule,
     NgxChartsModule,
     AngularEchartsModule,
+    ToasterModule,
   ],
   declarations: [
     FXEmployeeComponent,

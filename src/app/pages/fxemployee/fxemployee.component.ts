@@ -12,7 +12,9 @@ import { FXEmployeeService } from './fxemployee.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { LocalDataSource } from 'ng2-smart-table';
 import { CheckboxRenderComponent } from '../../shared/checkbox-render.component';
+import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
 
+import 'style-loader!angular2-toaster/toaster.css';
 import * as moment from 'moment';
 declare var $: any;
 declare var swal: any;
@@ -28,7 +30,7 @@ declare var swal: any;
         top: 10px !important;
     }`,
   ],
-  providers: [FXEmployeeService],
+  providers: [FXEmployeeService, ToasterService],
 })
 
 export class FXEmployeeComponent implements OnInit {
@@ -97,10 +99,19 @@ export class FXEmployeeComponent implements OnInit {
   protected oldEmployee: FXEmployee;
   protected isNew: boolean;
   ngOnInit() {
+    this.configToast = new ToasterConfig({
+            positionClass: 'toast-bottom-right',
+            timeout: 5000,
+            newestOnTop: true,
+            tapToDismiss: true,
+            preventDuplicates: true,
+            animation: 'flyRight',
+            limit: 5,
+        });
   }
-  constructor(private fxEmployeeService: FXEmployeeService, 
+  constructor(private fxEmployeeService: FXEmployeeService,
     private _sanitizer: DomSanitizer, private employeeService: FXEmployeeService,
-    private router: Router) {
+    private router: Router, private toasterService: ToasterService) {
     this.viewPerformance = false;
     this.inActiveDate = new Date();
     this.enableReset = false;
@@ -302,5 +313,22 @@ export class FXEmployeeComponent implements OnInit {
   onPerformance(event) {
     this.performanceUserID = event.data.userID;
     this.viewPerformance = true;
+    if (localStorage.getItem('performanceNotification') == null) {
+        this.showToast('info', '', 'Select on bar!');
+        localStorage.setItem('performanceNotification', 'true');
+    }
   }
+
+    protected configToast: any;
+    private showToast(type: string, title: string, body: string) {
+        const toast: Toast = {
+            type: type,
+            title: title,
+            body: body,
+            timeout: 5000,
+            showCloseButton: true,
+            bodyOutputType: BodyOutputType.TrustedHtml,
+        };
+        this.toasterService.pop(toast);
+    }
 }

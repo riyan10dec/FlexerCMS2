@@ -121,8 +121,32 @@
       transition: 0.2s; }
     .chart-legend .legend-label .active .legend-label-text {
       color: #fff; }
+
+    text {
+        fill: white;
+      }
+    
+    .progress {
+      background-color: transparent;
+    }
+    line {
+      display: block;
+      stroke: black;
+    }
+    div.ui-tooltip {
+        height: 30px;
+        padding: 5px;
+        font-size: 12px;
+        border: 0px;
+        background-color: #2f296b;
+        color: white;
+        border-color: transparent;
+    }
   </style>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="https://rawgit.com/ecomfe/echarts/3.8.5/dist/echarts.js"></script>
   <div id="nb-global-spinner" class="spinner">
     <div class="blob blob-0"></div>
     <div class="blob blob-1"></div>

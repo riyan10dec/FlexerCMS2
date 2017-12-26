@@ -14,6 +14,8 @@ import {MomentModule} from 'angular2-moment';
 import { ChartModule } from 'angular2-chartjs';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AngularEchartsModule } from 'ngx-echarts';
+import { ToasterModule } from 'angular2-toaster';
+import { PopoverModule } from 'ngx-popover';
 
 @NgModule({
   imports: [
@@ -28,6 +30,8 @@ import { AngularEchartsModule } from 'ngx-echarts';
     ChartModule,
     NgxChartsModule,
     AngularEchartsModule,
+    ToasterModule,
+    PopoverModule,
   ],
   declarations: [
     PerformanceComponent,

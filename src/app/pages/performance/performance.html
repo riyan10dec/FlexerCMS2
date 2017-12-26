@@ -1,4 +1,4 @@
- 
+ <div *ngIf="!showDetail">
         <div class="row">
             <div class="col-12">
                 <select class="form-control" style="width: 200px; float:left; margin-right: 10px;" 
@@ -19,13 +19,30 @@
                 </ngx-charts-pie-chart>
             </div>
             <div class="col-3 text-left" style="margin-top: 30px;">
+                {{ workingDays }} Working Day(s) <br/>
                 Total: {{totalString}} <br/>
                 Productive: {{productiveString}}<br/>
                 Unproductive: {{unproductiveString}}<br/>
                 Unclassified: {{unclassifiedString}}<br/>
             </div>
+            <div class="col-6" style="padding-left: 50px;">
+                <div id="gaugeChart" style="width: 400px;height:200px"></div>
+                <div class="row" style="margin-top: -40px;">
+                    <div class="col-3 text-right" style="font-size: 14px; color: white;"> MouseClick
+                    </div>
+                    <div class="col-4 text-center" style="font-size: 14px; color: white; position: absolute; left: 165px;"> KeyStroke
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
+            <div class="col-12 text-right">
+                <nb-checkbox [(ngModel)]="completedTask" (ngModelChange)="loadTask()">Show Completed Task</nb-checkbox>
+            </div>
+            <div class="col-12">
+                <ng2-smart-table [settings]="taskSetting" 
+                [source]="taskSource"></ng2-smart-table>
+            </div>
             <div class="col-12">
                 <nb-card-body>
                 <ngx-charts-bar-horizontal-stacked
@@ -45,4 +62,71 @@
                 </nb-card-body>
             </div>
         </div>
+ </div>
+
+<div *ngIf="showDetail">
+    <div class="col-12">
+      <div class="channels-info-item" *ngFor="let item of userDailyActivities" >
+        <div class="legend-color"></div>
+        <div class="progress progress-sm channel-progress row">
+            <div class="col-6">
+                
+                <div class="row appTooltip" title="Keystoke: {{ item.keystroke }} MouseClick: {{item.mouseclick}}">
+                    <div class="col-6 text-left" style="font-size: 20px; height: 10px;">
+                        <p>{{ item.activityName }}</p>
+                    </div>
+                    <div class="channel-number col-6 text-right" style="margin-top: 4px;">&nbsp; {{ hhmmss(item.activityDuration) }}</div>
+                    <div style="width: 100%;margin-bottom: 10px; float: left;" class="col-12">
+                        <div class="progress-bar" role="progressbar" style="height: 5px; margin: 5px;"
+                            [attr.aria-valuenow]="item.activityDuration / totalDuration * 100" aria-valuemin="0" aria-valuemax="100" 
+                            [ngStyle]="{width: (item.activityDuration / totalDuration * 100) + '%', 'background-color': getColor(item) }">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12" style="margin-top: 20px;">
+        
+        <div class="row" style="margin-bottom: 20px;">
+            <label class="theme-switch">
+                <span style="margin: 0px 10px;">Clock</span>
+                <div class="switch">
+                    <input type="checkbox" [checked]="isClockSelected" (change)="isClockSelected = !isClockSelected" #theme>
+                    <span class="slider"></span>
+                </div>
+                <span style="margin: 0px 10px;">Line</span>
+            </label>
+        </div>
+        <div class="row" [hidden]="isClockSelected">
+            <div class="col-6 text-center" [hidden]="isClockSelected">
+                <h4>AM</h4>
+                <div class="clockChart" style="margin: 0 auto; width: 200px;"></div>
+            </div>
+            <div class="col-6 text-center" [hidden]="isClockSelected">
+                <h4>PM</h4>
+                <div class="clockChart2" style="margin: 0 auto; width: 200px;"></div>
+            </div>
+        </div>
+        <div class="row" [hidden]="!isClockSelected">
+            <ngx-charts-area-chart
+            [view]="[1000,500]"
+            [scheme]="activitySummaryOption"
+            [results]="timelineData"
+            [gradient]="true"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [xAxisLabel]="'Time'"
+            [yAxisLabel]="'Duration'"
+            [yScaleMax]="minDuration"
+            [showGridLines]="false"
+            [autoScale]="false">
+            </ngx-charts-area-chart>
+        </div>
+    </div>
+</div>
 <!--(change)="onPiePeriodChange($event.target.value)"-->
