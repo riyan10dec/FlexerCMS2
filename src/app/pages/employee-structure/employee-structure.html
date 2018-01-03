@@ -1,0 +1,30 @@
+<form class="row">
+    <div class="col-6 input-group">
+      <input #filter class="form-control" (keyup)="filterNodes(filter.value, tree)" placeholder="Search Employee"/>
+    </div>
+    <div class="offset-2 col-4" style="margin-bottom: 20px; max-width: 250px;">
+        <label class="theme-switch">
+            <span style="margin: 0px 10px;">All</span>
+            <div class="switch">
+                <input type="checkbox" [checked]="isActiveOnly" (change)="toogleIsActive()" #theme>
+                <span class="slider"></span>
+            </div>
+            <span style="margin: 0px 10px;">Active Only</span>
+        </label>
+    </div>
+</form>
+<div class="tree" style="height: 70vh; margin-top: 30px;">
+  <tree-root
+        #tree
+        [nodes]="nodes"
+        [options]="customTemplateStringOptions"
+        [focused]="true"
+        (moveNode)="onMoveNode($event)"
+        (initialized)="onInitialized(tree)">
+        <ng-template #treeNodeTemplate let-node>
+          <span [ngStyle]="{'color':node.data.isActive === true ? '#00D977' : '#FF386A' }">{{ node.data.name }}</span>
+          <!--<span>({{ node.data.subTitle }})</span>-->
+        </ng-template>
+      <ng-template #loadingTemplate>Loading, please hold....</ng-template>
+  </tree-root>
+</div>

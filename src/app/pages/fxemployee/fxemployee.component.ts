@@ -36,6 +36,7 @@ declare var swal: any;
 export class FXEmployeeComponent implements OnInit {
 
   protected viewPerformance: boolean;
+  protected viewStructure: boolean = false;
   source: LocalDataSource = new LocalDataSource();
   public input: string = '<input type="checkbox"></input>';
   settings = {

@@ -1,3 +1,4 @@
+import { EmployeeStructureComponent } from '../employee-structure/employee-structure.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,6 +18,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AngularEchartsModule } from 'ngx-echarts';
 import { PerformanceComponent } from '../performance/performance.component'
 import { ToasterModule } from 'angular2-toaster';
+import { TreeModule } from 'angular-tree-component';
 
 @NgModule({
   imports: [
@@ -33,10 +35,12 @@ import { ToasterModule } from 'angular2-toaster';
     NgxChartsModule,
     AngularEchartsModule,
     ToasterModule,
+    TreeModule,
   ],
   declarations: [
     FXEmployeeComponent,
     PerformanceComponent,
+    EmployeeStructureComponent,
   ],
   providers: [
     SmartTableService,

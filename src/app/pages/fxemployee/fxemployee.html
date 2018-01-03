@@ -11,7 +11,7 @@ background-color: black;
 }
 </style>
 
-<div class="widgets" style="text-align:center;" *ngIf="!edit && !viewPerformance">
+<div class="widgets" style="text-align:center;" *ngIf="!edit && !viewPerformance && !viewStructure">
   <div style="text-align: left;display: inline-block; width: 80%;" class="row">
     <div class="col-xs-2">
       <select class="form-control" style="width: 200px; float:left; margin-right: 10px;" [(ngModel)]="selectedAction">
@@ -29,18 +29,22 @@ background-color: black;
   </div>
   <div class="row" style="display: inline-block; width: 80%;margin-top: 40px;">
     <nb-card title="Manage Department" baCardClass="with-scroll" class="smart-table-container">
-      <ng2-smart-table [settings]="settings" 
-          [source]="source" 
-          (edit) = "onEdit($event)"
-          (create)= "onCreate()"
-          (delete)= "onPerformance($event)"
-          ></ng2-smart-table>
+      <nb-card-header> Employee List </nb-card-header>
+      <nb-card-body>
+        <ng2-smart-table [settings]="settings" 
+            [source]="source" 
+            (edit) = "onEdit($event)"
+            (create)= "onCreate()"
+            (delete)= "onPerformance($event)"></ng2-smart-table>
+      </nb-card-body>
+      <nb-card-footer>
+        <button class="btn btn-hero-primary" type="button" (click)="viewStructure = true;">View Structure</button>
+      </nb-card-footer>
     </nb-card>
   </div>
 </div>
 
 <div class="widget" style="text-align: center" *ngIf="edit">
-  
   <div class="row" style="display: inline-block; width: 85%;margin-top: 40px;">
     <nb-card>
       <nb-card-header>
@@ -199,6 +203,17 @@ background-color: black;
     </nb-card-body>
     <nb-card-footer>
       <button class="btn btn-hero-primary" type="button" (click)="viewPerformance = false;">Back</button>
+    </nb-card-footer>
+  </nb-card>
+</div>
+<div *ngIf="viewStructure">
+  <nb-card>
+    <nb-card-header class="widget" style="text-align: center"> <h3> Employee Structure </h3> </nb-card-header>
+    <nb-card-body>
+      <ngx-employee-structure></ngx-employee-structure>
+    </nb-card-body>
+    <nb-card-footer class="widget" style="text-align: center">
+      <button class="btn btn-hero-primary" type="button" (click)="viewStructure = false;">Back</button>
     </nb-card-footer>
   </nb-card>
 </div>
