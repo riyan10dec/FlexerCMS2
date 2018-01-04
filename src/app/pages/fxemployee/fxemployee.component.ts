@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { ButtonViewComponent } from '../../shared/button-render.component';
-import { NbThemeService } from '@nebular/theme';
+import { NbSpinnerService, NbThemeService } from '@nebular/theme';
 import { ProtractorExpectedConditions } from 'protractor/built/expectedConditions';
 import { filter } from 'rxjs/operator/filter';
 import { withIdentifier } from 'codelyzer/util/astQuery';
@@ -112,7 +112,7 @@ export class FXEmployeeComponent implements OnInit {
   }
   constructor(private fxEmployeeService: FXEmployeeService,
     private _sanitizer: DomSanitizer, private employeeService: FXEmployeeService,
-    private router: Router, private toasterService: ToasterService) {
+    private router: Router, private toasterService: ToasterService, private _spinner: NbSpinnerService) {
     this.viewPerformance = false;
     this.inActiveDate = new Date();
     this.enableReset = false;
@@ -174,7 +174,7 @@ export class FXEmployeeComponent implements OnInit {
       gmtDiff: parseFloat(localStorage.getItem('gmtDiff')),
       activeOnly: this.activeOnly,
     }
-    this.employeeService.getEmployeeData(payload).subscribe((data) => {
+    this._spinner.registerLoader(this.employeeService.getEmployeeData(payload).toPromise().then((data) => {
       data.employees.forEach( d => {
         if (d.lastActivity.length === 0) {
           return;
@@ -182,7 +182,8 @@ export class FXEmployeeComponent implements OnInit {
         d.lastActivity = moment(d.lastActivity, 'YYYY-MM-DD HH:mm:ss').format('DD MMM YYYY HH:mm:ss');
       });
       this.source.load(data.employees);
-    });
+    }));
+    this._spinner.load();
   }
   onCreate() {
     this.edit = true;

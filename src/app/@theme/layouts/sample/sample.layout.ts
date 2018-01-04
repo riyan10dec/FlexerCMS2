@@ -29,9 +29,9 @@ import 'rxjs/add/operator/delay';
                    responsive
                    [right]="sidebar.id === 'right'">
         <nb-sidebar-header>
-          <a href="https://github.com/akveo/nebular" target="_blank" class="btn btn-hero-success main-btn">
-            <i class="ion ion-social-github"></i> <span>Support Us</span>
-          </a>
+          <div class="btn btn-hero-success main-btn">
+            <span>Fucking Menu</span>
+          </div>
         </nb-sidebar-header>
         <ng-content select="nb-menu"></ng-content>
       </nb-sidebar>

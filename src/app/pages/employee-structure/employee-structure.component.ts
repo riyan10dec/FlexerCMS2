@@ -22,7 +22,6 @@ const actionMapping: IActionMapping = {
         from: any;
         to: any;
     }) => {
-      console.log(from);
       if(from.parent.data.userID == to.parent.data.userID) return;
       swal({
         title: 'Confirmation',
@@ -177,7 +176,6 @@ export class EmployeeStructureComponent {
         this.nodes = node;
          tree.treeModel.update();
          //this.getChildren(this.nodes[0]);
-         //console.log(this.nodes);
       })
       );
       this._spinner.load();
@@ -188,8 +186,5 @@ export class EmployeeStructureComponent {
     alert('this method is on the app component');
   }
 
-  activeNodes(treeModel) {
-    console.log(treeModel.activeNodes);
-  }
 
 }

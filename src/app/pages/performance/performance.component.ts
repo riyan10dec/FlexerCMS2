@@ -3,11 +3,11 @@ import { typeSourceSpan } from '@angular/compiler';
 import { fdatasync } from 'fs';
 import { el } from '@angular/platform-browser/testing/src/browser_util';
 import { ActivatedRoute } from '@angular/router';
-import { NbThemeService } from '@nebular/theme';
+import { NbSpinnerService, NbThemeService } from '@nebular/theme';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { PerformanceService } from './performance.service';
-import * as ClockChart from  './performance.clock';
-import * as GaugeChart from  './performance.gauge';
+import * as ClockChart from './performance.clock';
+import * as GaugeChart from './performance.gauge';
 declare var $: any;
 @Component({
   selector: 'ngx-performance',
@@ -27,7 +27,7 @@ export class PerformanceComponent implements OnInit, OnDestroy {
     private sub: any;
     protected color: any;
     constructor(private performanceService: PerformanceService,
-    private theme: NbThemeService, private route: ActivatedRoute) {
+    private theme: NbThemeService, private route: ActivatedRoute, private _spinner: NbSpinnerService) {
         $( function() {
             $( document ).tooltip({
                 items: '.appTooltip',
@@ -41,8 +41,7 @@ export class PerformanceComponent implements OnInit, OnDestroy {
         this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
             const colors: any = config.variables;
             this.activitySummaryOption = {
-                domain: ['#00D977', '#FFE81C', '#FF386A',
-                colors.warningLight, colors.dangerLight],
+                domain: ['#00D977', '#FFE81C',  '#FF386A'],
             };
             this.color = {productive: '#00D977', unproductive: '#FFE81C',
                 unclassified: '#FF386A'};
@@ -112,6 +111,7 @@ export class PerformanceComponent implements OnInit, OnDestroy {
     protected taskSource: any;
     protected completedTask: boolean;
     loadPerformance() {
+        this._spinner.clear();
         this.completedTask = false;
         this.loadTask();
         localStorage.removeItem('performanceNotification');
@@ -126,11 +126,11 @@ export class PerformanceComponent implements OnInit, OnDestroy {
             periodEnd: this.periodEnd,
             numOfResult: 10,
         };
-        this.performanceService.getUserPerformance(payload).subscribe((data) => {
+        this._spinner.registerLoader(this.performanceService.getUserPerformance(payload).toPromise().then((data) => {
             this.activitySummaryData = [
                 { name: 'Productive', value: data.productiveDuration },
-                { name: 'Unproductive', value: data.unproductiveDuration },
                 { name: 'Unclassified', value: data.unclassifiedDuration },
+                { name: 'Unproductive', value: data.unproductiveDuration },
             ];
             this.totalTime += (data.productiveDuration +
                 data.unproductiveDuration + data.unclassifiedDuration);
@@ -146,8 +146,8 @@ export class PerformanceComponent implements OnInit, OnDestroy {
                 maxMouseclick: data.maxMouseClickPerHour,
             };
             GaugeChart(gaugeConfig);
-        });
-        this.performanceService.getUserDaily(payload).subscribe((data) => {
+        }));
+        this._spinner.registerLoader(this.performanceService.getUserDaily(payload).toPromise().then((data) => {
             const tempUserDailies: Array<any> = new Array();
             for (let i = 0 ; i < data.performances.length ; i ++) {
                 tempUserDailies.push({
@@ -159,14 +159,14 @@ export class PerformanceComponent implements OnInit, OnDestroy {
                         },
 
                         {
+                            name: 'Unclassified',
+                            value: data.performances[i].unclassifiedDuration,
+                        },
+                        {
                             name: 'Unproductive',
                             value: data.performances[i].unproductiveDuration,
                         },
 
-                        {
-                            name: 'Unclassified',
-                            value: data.performances[i].unclassifiedDuration,
-                        },
                     ],
                 });
             }
@@ -184,7 +184,8 @@ export class PerformanceComponent implements OnInit, OnDestroy {
             } else {
                 this.dailyView = [1000, 1000];
             }
-        });
+        }));
+        this._spinner.load();
     }
     loadTask() {
         const payload = {
@@ -193,7 +194,7 @@ export class PerformanceComponent implements OnInit, OnDestroy {
             periodEnd: this.periodEnd,
             isOngoingOnly: !this.completedTask,
         };
-        this.performanceService.getUserTask(payload).subscribe((data) => {
+        this.performanceService.getUserTask(payload).toPromise().then((data) => {
             if (data.tasks == null) {
                 this.taskSource.load();
             } else {
@@ -223,7 +224,7 @@ export class PerformanceComponent implements OnInit, OnDestroy {
         this.timelineData = [
                 {name: '', series : []},
             ];
-        this.performanceService.getUserDailyTimeline(payload).subscribe((data) => {
+        this._spinner.registerLoader(this.performanceService.getUserDailyTimeline(payload).toPromise().then((data) => {
             let tempTimelineData: Array<any> = new Array();
             let amClocks = [];
             let pmClocks = [];
@@ -294,7 +295,8 @@ export class PerformanceComponent implements OnInit, OnDestroy {
                 selector: '.clockChart2',
             };
             ClockChart(clockConfig2);
-        });
+        }));
+        this._spinner.load();
     }
     getColor(item: any): string {
         if (item.activityClassification == 'Productive'){
