@@ -44,7 +44,7 @@ const routes: Routes = [{
     },
     {
       path: 'ActivityCategory',
-      loadChildren: './activity-category/activity-category.module#ActivityCategoryModule',
+      loadChildren: './activity/activity.module#ActivityModule',
     },
     {
       path: '',

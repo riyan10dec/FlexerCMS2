@@ -1,20 +1,22 @@
-import { ActivityCategory } from './activity';
+import { Activity } from './activity';
 import { ApiService } from '../../shared/apiService';
 import { Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class ActivityCategoryService {
+export class ActivityService {
     constructor(private apiService: ApiService) { }
 
-    private getDepartmentDataQuery: string = '/cms/GetAllDepartments/@0/@1';
-    private saveDepartmentQuery: string = '/cms/SaveDepartment';
+    private getActivityQuery: string = '/cms/GetAllActivities/@0/@1';
+    private updateActivityQuery: string = '/cms/UpdateActivity';
 
-    getDepartmentData(payload): Observable<any> {
-        return this.apiService.get(this.getDepartmentDataQuery.replace('@0', payload.clientID).replace('@1', payload.gmtDiff)).map(data =>
+    getActivity(payload): Observable<any> {
+        return this.apiService.get(this.getActivityQuery
+        .replace('@0', payload.userID)
+        .replace('@1', payload.gmtDiff)).map(data =>
             data);
     }
     saveDepartment(payload): Observable<any> {
-        return this.apiService.post(this.saveDepartmentQuery, payload).map(data => data);
+        return this.apiService.post(this.updateActivityQuery, payload).map(data => data);
     }
 }

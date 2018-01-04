@@ -1,12 +1,12 @@
 import { Routes, RouterModule } from '@angular/router';
 
-import { ActivityCategoryComponent } from './activity.component';
+import { ActivityComponent } from './activity.component';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
   {
     path: '',
-    component: ActivityCategoryComponent,
+    component: ActivityComponent,
   },
 ];
 

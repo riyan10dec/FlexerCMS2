@@ -1,1 +1,1 @@
-export * from './activity-category.component';
+export * from './activity.component';

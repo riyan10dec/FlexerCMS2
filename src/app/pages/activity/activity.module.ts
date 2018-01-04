@@ -5,14 +5,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 import { ThemeModule } from '../../@theme/theme.module';
- import { ActivityCategoryComponent } from './activity.component';
- import { routing } from './activity.routing';
+import { ActivityComponent } from './activity.component';
+import { routing } from './activity.routing';
 import { SmartTableService } from '../../@core/data/smart-table.service';
- import { ActivityCategoryService } from './activity.service';
- import { ApiService } from '../../shared/apiService';
- import { JwtService } from '../../shared/jwt.service';
-// import { CheckboxRenderComponent } from '../../shared/checkbox-render.component';
-// import { connectionAPI } from '../../../environments/connectionAPI';
+import { ActivityService } from './activity.service';
+import { ApiService } from '../../shared/apiService';
+import { JwtService } from '../../shared/jwt.service';
 
 @NgModule({
   imports: [
@@ -24,11 +22,11 @@ import { SmartTableService } from '../../@core/data/smart-table.service';
     Ng2SmartTableModule,
   ],
   declarations: [
-    ActivityCategoryComponent,
+    ActivityComponent,
   ],
   providers: [
     SmartTableService,
-    ActivityCategoryService,
+    ActivityService,
     ApiService,
     JwtService,
   ],
@@ -36,7 +34,7 @@ import { SmartTableService } from '../../@core/data/smart-table.service';
   //   CheckboxRenderComponent,
   // ],
 })
-export class ActivityCategoryModule { 
+export class ActivityModule { 
   constructor() {
   console.log('a');
   }

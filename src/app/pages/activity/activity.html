@@ -4,7 +4,7 @@
     <div class="col-xs-2">
       <select class="form-control" style="width: 200px; float:left; margin-right: 10px;" [(ngModel)]="selectedAction">
             <option value disabled selected>--Select Action--</option>
-            <option value="bulkDelete">Bulk Delete</option>
+            <option value="bulkDelete">Bulk </option>
             <option value="import">Import</option>
       </select>
     </div>
@@ -13,14 +13,11 @@
     </div>
   </div>
   <div class="row" style="display: inline-block; width: 80%;margin-top: 40px;">
-    <nb-card title="Manage Department" baCardClass="with-scroll" class="smart-table-container">
+    <nb-card title="Manage Activity" baCardClass="with-scroll" class="smart-table-container">
       <ng2-smart-table [settings]="settings" 
           [source]="source" 
-          (deleteConfirm)="onDeleteConfirm($event)" 
           (editConfirm)="onEditConfirm($event)" 
-          (createConfirm)="onCreateConfirm($event)"
           (userRowSelect)="onChecked($event)"></ng2-smart-table>
-      <button class="btn btn-hero-primary" type="button" (click)="onSubmit()" style="margin-top:20px;float:right">Save</button>
     </nb-card>
   </div>
 
