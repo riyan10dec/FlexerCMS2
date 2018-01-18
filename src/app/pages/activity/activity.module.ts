@@ -11,6 +11,8 @@ import { SmartTableService } from '../../@core/data/smart-table.service';
 import { ActivityService } from './activity.service';
 import { ApiService } from '../../shared/apiService';
 import { JwtService } from '../../shared/jwt.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 
 @NgModule({
   imports: [
@@ -20,6 +22,8 @@ import { JwtService } from '../../shared/jwt.service';
     ThemeModule,
     routing,
     Ng2SmartTableModule,
+    NguiAutoCompleteModule,
+    NgbModule,
   ],
   declarations: [
     ActivityComponent,
@@ -30,12 +34,8 @@ import { JwtService } from '../../shared/jwt.service';
     ApiService,
     JwtService,
   ],
-  // entryComponents: [
-  //   CheckboxRenderComponent,
-  // ],
 })
-export class ActivityModule { 
+export class ActivityModule {
   constructor() {
-  console.log('a');
   }
 }

@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
 
   user: any;
 
-  userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
+  userMenu = [{ title: 'Log out', id: 'logout', link: '/pages/login'}];
 
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
@@ -25,10 +25,19 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getUsers()
-      .subscribe((users: any) => this.user = users.nick);
+    this.userService.getUser()
+      .subscribe((user: any) => this.user = user);
   }
-
+  onMenuItemClick(event): void {
+    if (event.id === 'logout' ) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('serverTime');
+        localStorage.removeItem('clientID');
+        localStorage.removeItem('userID');
+        localStorage.removeItem('userName');
+        
+    }
+  }
   toggleSidebar(): boolean {
     this.sidebarService.toggle(true, 'menu-sidebar');
     return false;

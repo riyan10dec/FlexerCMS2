@@ -43,7 +43,7 @@ const routes: Routes = [{
       loadChildren: './fxemployee/fxemployee.module#FXEmployeeModule',
     },
     {
-      path: 'ActivityCategory',
+      path: 'activity',
       loadChildren: './activity/activity.module#ActivityModule',
     },
     {

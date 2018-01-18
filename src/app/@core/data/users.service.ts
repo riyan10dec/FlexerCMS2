@@ -31,7 +31,11 @@ export class UserService {
   }
 
   getUser(): Observable<any> {
-    counter = (counter + 1) % this.userArray.length;
-    return Observable.of(this.userArray[counter]);
+    //counter = (counter + 1) % this.userArray.length;
+    //return Observable.of(this.userArray[counter]);
+    return Observable.of({
+      name :localStorage.getItem('userName'), 
+      //picture: 'assets/images/nick.png'
+    });
   }
 }

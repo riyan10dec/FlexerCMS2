@@ -1,3 +1,4 @@
+import { NbSpinnerService } from '@nebular/theme';
 import { filter } from 'rxjs/operator/filter';
 import { withIdentifier } from 'codelyzer/util/astQuery';
 import { Component, OnInit } from '@angular/core';
@@ -21,10 +22,13 @@ export class LoginComponent implements OnInit {
 
   email: string = '';
   password: string = '';
-  constructor( private loginService: LoginService, private router: Router) {
+  constructor( private loginService: LoginService, private router: Router, private _spinner: NbSpinnerService) {
       
   }
-  ngOnInit() {}
+  ngOnInit() {
+    this._spinner.clear();
+    console.log('a');
+  }
   signIn() {
     localStorage.setItem('gmtDiff', this.getTimezoneOffset().toFixed(2));
     let param = {
@@ -32,7 +36,7 @@ export class LoginComponent implements OnInit {
       password: this.password,
       gmtDiff: parseFloat(localStorage.getItem('gmtDiff')),
     };
-    this.loginService.signIn(param).subscribe((data) => {
+    this._spinner.registerLoader(this.loginService.signIn(param).toPromise().then((data) => {
       if (data.status === 1) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('serverTime', data.serverTime);
@@ -46,7 +50,8 @@ export class LoginComponent implements OnInit {
             data.description,
             'error');
       }
-    });
+    }));
+    this._spinner.load();
   }
    getTimezoneOffset() {
       let offset = new Date().getTimezoneOffset();

@@ -2,22 +2,73 @@
 <div class="widgets" style="text-align:center;">
   <div style="text-align: left;display: inline-block; width: 80%;" class="row">
     <div class="col-xs-2">
-      <select class="form-control" style="width: 200px; float:left; margin-right: 10px;" [(ngModel)]="selectedAction">
+      <select class="form-control" style="width: 200px; float:left; margin-right: 10px;">
             <option value disabled selected>--Select Action--</option>
             <option value="bulkDelete">Bulk </option>
             <option value="import">Import</option>
       </select>
     </div>
     <div class="col-xs-2">
-      <button class="btn btn-hero-primary" type="button" (click)="applyAction(selectedAction)">Go</button>
+      <button class="btn btn-hero-primary" type="button" (click)="applyAction('')">Go</button>
     </div>
   </div>
   <div class="row" style="display: inline-block; width: 80%;margin-top: 40px;">
-    <nb-card title="Manage Activity" baCardClass="with-scroll" class="smart-table-container">
-      <ng2-smart-table [settings]="settings" 
-          [source]="source" 
-          (editConfirm)="onEditConfirm($event)" 
-          (userRowSelect)="onChecked($event)"></ng2-smart-table>
+    <nb-card title="Manage Activity" baCardClass="with-scroll">
+      <nb-card-body>
+        <div class="channels-info-item" *ngFor="let item of activities; let i = index" [attr.data-index]="i">
+          <div class="legend-color"></div>
+          <div class="progress progress-sm channel-progress row">
+            <div class="col-7">
+                <div class="row">
+                    <div class="col-10 text-left" style="font-size: 20px; height: 10px;">
+                        <p>{{ item.activityName }} ( {{ item.activityType }} ) </p>
+                    </div>
+                    <div class="channel-number col-2 text-right" style="margin-top: 4px;">&nbsp; {{ item.utilization }}</div>
+                    <div style="width: 100%;margin-bottom: 10px; float: left;" class="col-12">
+                        <div class="progress-bar" role="progressbar" style="height: 5px; margin: 5px;"
+                            [attr.aria-valuenow]="item.utilization / totalUtil * 100" aria-valuemin="0" aria-valuemax="100" 
+                            [ngStyle]="{width: (item.utilization / totalUtil * 100) + '%', 'background-color': getColor(item) }">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-5">
+              <div class="input-group">
+                <div ngui-auto-complete
+                    [source]="categories"
+                    [max-num-list]="3"
+                    [min-chars]="1"
+                    class="nb-theme-cosmic"
+                    (valueChanged)="onChange('category',$event, item)">
+                    <!--<input type="text" class="form-control" name="Position" id="Position" autocomplete="off" placeholder="Position" [ngModel] = "changedEmployee.Position">-->
+
+                    <input type="text" class="form-control" [value]="item.category" style="width: 175px;">
+                  </div>
+                <div class="input-group-btn">
+                  <!--<button type="button" class="btn dropdown-toggle btn-outline-primary" 
+                      style="width: 140px; font-size: 14px;padding: 10px;" >
+                    {{ item.classification }}
+                  </button>-->
+                  <select class="btn dropdown-toggle btn-outline-primary" (change)="onChange('classification',$event, item)"
+                    style="width: 150px; float:left; margin-right: 10px;font-size: 14px;">
+                        <option value="Productive" [selected]="item.classification === 'Productive'">Productive</option>
+                        <option value="Unproductive" [selected]="item.classification === 'Unproductive'">Unproductive</option>
+                        <option value="Unclassified" [selected]="item.classification === 'Unclassified'">Unclassified</option>
+                  </select>
+                  <!--<div ngbDropdownMenu class="dropdown-menu" >
+                    <button class="dropdown-item">Action - 1</button>
+                    <button class="dropdown-item">Another Action</button>
+                    <button class="dropdown-item">Something else is here</button>
+                  </div>-->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nb-card-body>
+      <nb-card-footer>
+        <button class="btn btn-hero-primary" type="button" (click)="onSubmit()" style="margin-top:20px;float:right">Save</button>
+      </nb-card-footer>
     </nb-card>
   </div>
 
