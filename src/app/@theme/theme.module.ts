@@ -1,3 +1,5 @@
+import { RouterModule } from '@angular/router';
+import { NotificationService } from './components/notification/notification.service';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -24,6 +26,7 @@ import {
   ThemeSettingsComponent,
   ThemeSwitcherComponent,
   TinyMCEComponent,
+  NotificationComponent,
 } from './components';
 import { CapitalizePipe, PluralPipe, RoundPipe, TimingPipe } from './pipes';
 import {
@@ -38,6 +41,7 @@ import { COSMIC_THEME } from './styles/theme.cosmic';
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
 
 const NB_MODULES = [
+  RouterModule,
   NbCardModule,
   NbLayoutModule,
   NbTabsetModule,
@@ -54,6 +58,7 @@ const NB_MODULES = [
 const COMPONENTS = [
   ThemeSwitcherComponent,
   HeaderComponent,
+  NotificationComponent,
   FooterComponent,
   SearchInputComponent,
   ThemeSettingsComponent,
@@ -80,6 +85,7 @@ const NB_THEME_PROVIDERS = [
   ).providers,
   ...NbSidebarModule.forRoot().providers,
   ...NbMenuModule.forRoot().providers,
+  NotificationService,
 ];
 
 @NgModule({
