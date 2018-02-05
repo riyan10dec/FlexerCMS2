@@ -1,5 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs/Rx';
+import { Observable, Subscription } from 'rxjs/Rx';
 import { NotificationService } from '../notification/notification.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Notification } from '../notification/notification.model';
@@ -33,18 +33,32 @@ export class HeaderComponent implements OnInit {
 
     notifications: Notification[];
     notificationSub: Subscription;
+    private timer: Subscription;
+    notificationCount: number;
+    
   ngOnInit() {
     this.userService.getUser()
       .subscribe((user: any) => this.user = user);
+      this.timer = Observable.interval(5000).subscribe( t => {
+        this.notificationService.getNotification({
+          userID : parseInt(localStorage.getItem('userID'), 10),
+        }).subscribe((data) => {
+          data.notifications.forEach( el => {
+            let n = this.notificationService.createNotification(
+              el.notificationID, el.notificationMessage, el.pageURL, el.seen);
+            this.notificationService.addNotification(n);
+          });
+          this.notificationCount = this.notificationService.countNotification();
+        });
+      });
+    // for (let i = 0; i < 10; i++) {
+    //   let n = this.notificationService.createRandomNotification();
+    //   this.notificationService.addNotification(n);
+    // }
 
-    for (let i = 0; i < 10; i++) {
-      let n = this.notificationService.createRandomNotification();
-      this.notificationService.addNotification(n);
-    }
-
-    this.notificationService.startRandomGeneration();
+    // this.notificationService.startRandomGeneration();
     this.notificationSub = this.notificationService.notifications$.subscribe((notifications) => {
-          this.notifications = notifications.sort((a, b) => b.date.valueOf() - a.date.valueOf()).slice(0, 10);
+          this.notifications = notifications;//.sort((a, b) => b.date.valueOf() - a.date.valueOf()).slice(0, 10);
       });
   }
   onMenuItemClick(event): void {

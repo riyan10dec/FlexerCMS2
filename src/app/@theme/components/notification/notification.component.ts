@@ -6,7 +6,7 @@ import {
     state,
     style,
     transition,
-    animate
+    animate,
 } from '@angular/core';
 
 import {Notification, NotificationType} from './notification.model';
@@ -15,7 +15,7 @@ import {Notification, NotificationType} from './notification.model';
     moduleId: module.id,
     selector: 'ngx-notification',
     templateUrl: 'notification.component.html',
-    styleUrls: ['notification.component.scss'],
+    styleUrls: ['./notification.component.scss'],
     animations: [
         // Define an animation that adjusts the opactiy when a new item is created
         //  in the DOM. We use the 'visible' string as the hard-coded value in the
